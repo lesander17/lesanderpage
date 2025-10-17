@@ -38,7 +38,7 @@
     </p>
     <p style="font-size: 14px; color:#374151">
       Endpoint: <code>business-api.tiktok.com/open_api/v1.3/oauth2/authorize</code><br/>
-      Scopes Business (ejemplo): <code>business.basic,comment.read</code>
+      Scopes Business: <code>(TikTok detectará automáticamente los permisos activos de tu app)</code>
     </p>
   </div>
 
@@ -57,24 +57,21 @@
     document.getElementById("loginDev").href = AUTH_BASE_DEV + "?" + paramsDev.toString();
 
     // ====== (B) BUSINESS ======
-    // En Business normalmente es "app_id" (NO client_key)
-    const APP_ID_BUSINESS = "7555340728902090768"; // <-- pon aquí tu app_id de Business (NemetonAPI2)
-    // Scopes EXACTOS según lo que marques en el portal (ver sección 2).
-    // Empieza solo con lectura de comentarios:
-    const SCOPES_BUSINESS = "business.basic,comment.read"; // <-- ajusta nombres según el portal
-
-    const AUTH_BASE_BIZ = "https://ads.tiktok.com/marketing_api/auth";
+    // Aquí ya no usamos 'scope', TikTok detecta los permisos configurados en tu app Business
+    const APP_ID_BUSINESS = "7555340728902090768"; // <-- tu app_id de Business (NemetonAPI2)
+    const AUTH_BASE_BIZ = "https://business-api.tiktok.com/open_api/v1.3/oauth2/authorize";
     const paramsBiz = new URLSearchParams({
       app_id: APP_ID_BUSINESS,
       redirect_uri: REDIRECT_URI,
-      state: "xyz123",
-      scope: SCOPES_BUSINESS,
-      response_type: "code"
+      response_type: "code",
+      state: "xyz123"
     });
     document.getElementById("loginBiz").href = AUTH_BASE_BIZ + "?" + paramsBiz.toString();
   </script>
 </body>
 </html>
+
+
 
 
 
