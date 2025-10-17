@@ -7,7 +7,7 @@
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 820px; margin: 40px auto; line-height: 1.6; }
     code, pre { background: #f6f8fa; padding: 2px 4px; border-radius: 6px; }
-    a.button { display: inline-block; padding: 10px 16px; border-radius: 8px; background: #111827; color: #fff; text-decoration: none; }
+    a.button { display: inline-block; padding: 10px 16px; border-radius: 8px; background: #111827; color: #fff; text-decoration: none; margin-right: 12px; }
     .box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
   </style>
 </head>
@@ -22,31 +22,60 @@
   </ul>
 
   <div class="box">
-    <h3>Prueba de Login (OAuth v2)</h3>
-    <p>Edita este archivo en GitHub y reemplaza <code>YOUR_CLIENT_KEY</code> por tu <em>client key</em> real.
-       El <code>redirect_uri</code> ya apunta a <code>callback.html</code>.</p>
+    <h3>Login (Developers – Open API)</h3>
+    <p>Usa este botón para probar <code>video.list</code> de Developers.</p>
     <p>
-      <a class="button" id="loginLink" href="#">Continuar con TikTok</a>
+      <a class="button" id="loginDev" href="#">Continuar con TikTok (Developers)</a>
     </p>
     <p style="font-size: 14px; color:#374151">Scopes: <code>video.list</code> | response_type: <code>code</code></p>
   </div>
 
+  <div class="box">
+    <h3>Login (Business – para comentarios)</h3>
+    <p>Usa este botón para conectar una <strong>cuenta Business</strong> y luego leer <strong>comentarios</strong>.</p>
+    <p>
+      <a class="button" id="loginBiz" href="#">Conectar cuenta Business</a>
+    </p>
+    <p style="font-size: 14px; color:#374151">
+      Endpoint: <code>business-api.tiktok.com/open_api/v1.3/oauth2/authorize</code><br/>
+      Scopes Business (ejemplo): <code>business.basic,comment.read</code>
+    </p>
+  </div>
+
   <script>
-    // Configura aquí tu client_key
-    const CLIENT_KEY = "sbaw3xhi0zl5fwaafh"; // <-- Reemplaza esto en GitHub
+    // ====== (A) DEVELOPERS ======
+    const CLIENT_KEY_DEV = "sbaw3xhi0zl5fwaafh"; // <-- tu client_key de Developers
     const REDIRECT_URI = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, "/") + "callback.html";
-    const AUTH_BASE = "https://www.tiktok.com/v2/auth/authorize/";
-    const params = new URLSearchParams({
-      client_key: CLIENT_KEY,
+    const AUTH_BASE_DEV = "https://www.tiktok.com/v2/auth/authorize/";
+    const paramsDev = new URLSearchParams({
+      client_key: CLIENT_KEY_DEV,
       scope: "video.list",
       response_type: "code",
       redirect_uri: REDIRECT_URI,
       state: "xyz123"
     });
-    document.getElementById("loginLink").href = AUTH_BASE + "?" + params.toString();
+    document.getElementById("loginDev").href = AUTH_BASE_DEV + "?" + paramsDev.toString();
+
+    // ====== (B) BUSINESS ======
+    // En Business normalmente es "app_id" (NO client_key)
+    const APP_ID_BUSINESS = "7555340728902090768"; // <-- pon aquí tu app_id de Business (NemetonAPI2)
+    // Scopes EXACTOS según lo que marques en el portal (ver sección 2).
+    // Empieza solo con lectura de comentarios:
+    const SCOPES_BUSINESS = "business.basic,comment.read"; // <-- ajusta nombres según el portal
+
+    const AUTH_BASE_BIZ = "https://business-api.tiktok.com/open_api/v1.3/oauth2/authorize";
+    const paramsBiz = new URLSearchParams({
+      app_id: APP_ID_BUSINESS,
+      response_type: "code",
+      redirect_uri: REDIRECT_URI,
+      scope: SCOPES_BUSINESS,
+      state: "xyz123"
+    });
+    document.getElementById("loginBiz").href = AUTH_BASE_BIZ + "?" + paramsBiz.toString();
   </script>
 </body>
 </html>
+
 
 
 
