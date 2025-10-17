@@ -63,18 +63,19 @@
     // Empieza solo con lectura de comentarios:
     const SCOPES_BUSINESS = "business.basic,comment.read"; // <-- ajusta nombres según el portal
 
-    const AUTH_BASE_BIZ = "https://business-api.tiktok.com/open_api/v1.3/oauth2/authorize";
+    const AUTH_BASE_BIZ = "https://ads.tiktok.com/marketing_api/auth";
     const paramsBiz = new URLSearchParams({
       app_id: APP_ID_BUSINESS,
-      response_type: "code",
       redirect_uri: REDIRECT_URI,
+      state: "xyz123",
       scope: SCOPES_BUSINESS,
-      state: "xyz123"
+      response_type: "code"
     });
     document.getElementById("loginBiz").href = AUTH_BASE_BIZ + "?" + paramsBiz.toString();
   </script>
 </body>
 </html>
+
 
 
 
