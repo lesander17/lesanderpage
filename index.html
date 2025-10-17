@@ -14,39 +14,41 @@
 <body>
   <h1>PruebaAPI</h1>
   <p>Proyecto en <strong>Sandbox</strong> para integrar con la API de TikTok.</p>
-  <p>Enlaces útiles:</p>
   <ul>
     <li><a href="terms.html">Términos de servicio</a></li>
     <li><a href="privacy.html">Política de privacidad</a></li>
     <li><a href="callback.html">Callback de OAuth</a> (destino del <code>redirect_uri</code>)</li>
   </ul>
 
+  <!-- ===== Developers ===== -->
   <div class="box">
     <h3>Login (Developers – Open API)</h3>
     <p>Usa este botón para probar <code>video.list</code> de Developers.</p>
-    <p>
-      <a class="button" id="loginDev" href="#">Continuar con TikTok (Developers)</a>
-    </p>
-    <p style="font-size: 14px; color:#374151">Scopes: <code>video.list</code> | response_type: <code>code</code></p>
+    <p><a class="button" id="loginDev" href="#">Continuar con TikTok (Developers)</a></p>
+    <p style="font-size:14px;color:#374151">Scopes: <code>video.list</code> | response_type: <code>code</code></p>
   </div>
 
+  <!-- ===== Business ===== -->
   <div class="box">
     <h3>Login (Business – para comentarios)</h3>
-    <p>Usa este botón para conectar una <strong>cuenta Business</strong> y luego leer <strong>comentarios</strong>.</p>
+    <p>Conecta una <strong>cuenta Business</strong> para leer <strong>comentarios</strong> orgánicos.</p>
     <p>
-      <a class="button" id="loginBiz" href="#">Conectar cuenta Business</a>
+      <a class="button" id="loginBiz13" href="#">Conectar Business v1.3</a>
+      <a class="button" id="loginBiz12" href="#">Conectar Business v1.2</a>
     </p>
-    <p style="font-size: 14px; color:#374151">
-      Endpoint: <code>business-api.tiktok.com/open_api/v1.3/oauth2/authorize</code><br/>
-      Scopes Business: <code>(TikTok detectará automáticamente los permisos activos de tu app)</code>
+    <p style="font-size:14px;color:#374151">
+      Scopes Business: <code>business.basic,comment.read</code><br/>
+      Consejo: si un botón te da 404, prueba el otro (algunas cuentas usan otra versión).
     </p>
   </div>
 
   <script>
-    // ====== (A) DEVELOPERS ======
-    const CLIENT_KEY_DEV = "sbaw3xhi0zl5fwaafh"; // <-- tu client_key de Developers
+    // ===== Config común =====
     const REDIRECT_URI = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, "/") + "callback.html";
-    const AUTH_BASE_DEV = "https://www.tiktok.com/v2/auth/authorize/";
+
+    // ===== Developers =====
+    const CLIENT_KEY_DEV = "sbaw3xhi0zl5fwaafh";
+    const AUTH_BASE_DEV  = "https://www.tiktok.com/v2/auth/authorize/";
     const paramsDev = new URLSearchParams({
       client_key: CLIENT_KEY_DEV,
       scope: "video.list",
@@ -56,24 +58,34 @@
     });
     document.getElementById("loginDev").href = AUTH_BASE_DEV + "?" + paramsDev.toString();
 
-    // ====== (B) BUSINESS ======
-    // Aquí ya no usamos 'scope', TikTok detecta los permisos configurados en tu app Business
-    const APP_ID_BUSINESS = "7555340728902090768"; // <-- tu app_id de Business (NemetonAPI2)
-    const AUTH_BASE_BIZ = "https://business-api.tiktok.com/open_api/v1.3/oauth2/authorize";
-    const paramsBiz = new URLSearchParams({
+    // ===== Business =====
+    const APP_ID_BUSINESS  = "7555340728902090768";            // tu app_id Business
+    const SCOPES_BUSINESS  = "business.basic,comment.read";     // ajusta si tu portal usa otros nombres
+
+    // v1.3 (con trailing slash)
+    const AUTH_BASE_BIZ_13 = "https://business-api.tiktok.com/open_api/v1.3/oauth2/authorize/";
+    const paramsBiz13 = new URLSearchParams({
       app_id: APP_ID_BUSINESS,
-      redirect_uri: REDIRECT_URI,
       response_type: "code",
+      redirect_uri: REDIRECT_URI,
+      scope: SCOPES_BUSINESS,
       state: "xyz123"
     });
-    document.getElementById("loginBiz").href = AUTH_BASE_BIZ + "?" + paramsBiz.toString();
+    document.getElementById("loginBiz13").href = AUTH_BASE_BIZ_13 + "?" + paramsBiz13.toString();
+
+    // v1.2 (fallback con trailing slash)
+    const AUTH_BASE_BIZ_12 = "https://business-api.tiktok.com/open_api/v1.2/oauth2/authorize/";
+    const paramsBiz12 = new URLSearchParams({
+      app_id: APP_ID_BUSINESS,
+      response_type: "code",
+      redirect_uri: REDIRECT_URI,
+      scope: SCOPES_BUSINESS,
+      state: "xyz123"
+    });
+    document.getElementById("loginBiz12").href = AUTH_BASE_BIZ_12 + "?" + paramsBiz12.toString();
   </script>
 </body>
 </html>
-
-
-
-
 
 
 
