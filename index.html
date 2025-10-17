@@ -28,17 +28,14 @@
     <p style="font-size:14px;color:#374151">Scopes: <code>video.list</code> | response_type: <code>code</code></p>
   </div>
 
-  <!-- ===== Business ===== -->
+  <!-- ===== Business (válido) ===== -->
   <div class="box">
     <h3>Login (Business – para comentarios)</h3>
     <p>Conecta una <strong>cuenta Business</strong> para leer <strong>comentarios</strong> orgánicos.</p>
-    <p>
-      <a class="button" id="loginBiz13" href="#">Conectar Business v1.3</a>
-      <a class="button" id="loginBiz12" href="#">Conectar Business v1.2</a>
-    </p>
+    <p><a class="button" id="loginBiz" href="#">Conectar cuenta Business</a></p>
     <p style="font-size:14px;color:#374151">
-      Scopes Business: <code>business.basic,comment.read</code><br/>
-      Consejo: si un botón te da 404, prueba el otro (algunas cuentas usan otra versión).
+      Authorize: <code>https://ads.tiktok.com/marketing_api/auth</code><br/>
+      (sin <code>scope</code>; los permisos activos de tu app se aplican tras el login)
     </p>
   </div>
 
@@ -58,34 +55,23 @@
     });
     document.getElementById("loginDev").href = AUTH_BASE_DEV + "?" + paramsDev.toString();
 
-    // ===== Business =====
-    const APP_ID_BUSINESS  = "7555340728902090768";            // tu app_id Business
-    const SCOPES_BUSINESS  = "business.basic,comment.read";     // ajusta si tu portal usa otros nombres
+    // ===== Business (usa Ads/Marketing authorize SIN scope) =====
+    const APP_ID_BUSINESS = "7555340728902090768"; // tu app_id Business (NemetonAPI2)
+    const AUTH_BASE_BIZ   = "https://ads.tiktok.com/marketing_api/auth";
 
-    // v1.3 (con trailing slash)
-    const AUTH_BASE_BIZ_13 = "https://business-api.tiktok.com/open_api/v1.3/oauth2/authorize/";
-    const paramsBiz13 = new URLSearchParams({
+    // Importante: NO enviar "scope" aquí para evitar 404.
+    const paramsBiz = new URLSearchParams({
       app_id: APP_ID_BUSINESS,
-      response_type: "code",
       redirect_uri: REDIRECT_URI,
-      scope: SCOPES_BUSINESS,
+      response_type: "code",
       state: "xyz123"
     });
-    document.getElementById("loginBiz13").href = AUTH_BASE_BIZ_13 + "?" + paramsBiz13.toString();
 
-    // v1.2 (fallback con trailing slash)
-    const AUTH_BASE_BIZ_12 = "https://business-api.tiktok.com/open_api/v1.2/oauth2/authorize/";
-    const paramsBiz12 = new URLSearchParams({
-      app_id: APP_ID_BUSINESS,
-      response_type: "code",
-      redirect_uri: REDIRECT_URI,
-      scope: SCOPES_BUSINESS,
-      state: "xyz123"
-    });
-    document.getElementById("loginBiz12").href = AUTH_BASE_BIZ_12 + "?" + paramsBiz12.toString();
+    document.getElementById("loginBiz").href = AUTH_BASE_BIZ + "?" + paramsBiz.toString();
   </script>
 </body>
 </html>
+
 
 
 
